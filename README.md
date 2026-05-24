@@ -107,6 +107,40 @@ Open your web browser and go to:
 
 ---
 
+## 🚀 Deploying to Render
+
+This project is configured for easy deployment on **Render** as a Python Web Service. You can deploy it using either of the two methods below:
+
+### Option A: Using Render Blueprints (Recommended & Automated)
+
+Render Blueprints use the included `render.yaml` configuration to set up everything automatically.
+
+1. Commit and push all your files (including `render.yaml` and `backend/model.pkl`) to your GitHub repository.
+2. Log in to the [Render Dashboard](https://dashboard.render.com/).
+3. Click **New** and select **Blueprint**.
+4. Connect your GitHub repository and click **Connect**.
+5. Give your blueprint instance a name and click **Apply**.
+6. Render will automatically configure and deploy the service.
+
+### Option B: Manual Web Service Setup
+
+If you prefer to configure the Web Service manually in the Render Dashboard:
+
+1. Click **New +** and select **Web Service**.
+2. Connect your GitHub repository.
+3. Set the following configuration values:
+   * **Name**: `ipl-score-predictor` (or any name you prefer)
+   * **Language**: `Python`
+   * **Branch**: `main`
+   * **Build Command**: `pip install -r backend/requirements.txt`
+   * **Start Command**: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
+4. Under **Advanced Settings**, add the following environment variable:
+   * **Key**: `PYTHON_VERSION`
+   * **Value**: `3.12.7` *(Matches your local Python version to ensure `model.pkl` loads without serialization errors)*
+5. Click **Create Web Service**.
+
+---
+
 ## 📈 ML Model Performance
 
 The `RandomForestRegressor` has been optimized using:
