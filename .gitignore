@@ -1,0 +1,10 @@
+# Python virtual environments
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+
+# IDEs and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

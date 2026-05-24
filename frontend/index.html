@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Score Predictor AI</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Frontend Logic -->
+    <script defer src="/static/js/app.js"></script>
+</head>
+<body>
+    <!-- Background dynamic glow shapes -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <i class="fa-solid fa-trophy main-icon"></i>
+                <div class="logo-text">
+                    <h1>IPL Score Predictor <span class="badge-ai">AI</span></h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-content">
+            <!-- Left Side: Input Panel -->
+            <section class="glass-card input-panel">
+                <div class="card-header">
+                    <i class="fa-solid fa-sliders header-icon"></i>
+                    <h2>Match Situation</h2>
+                </div>
+                
+                <form id="prediction-form" class="prediction-form">
+                    <!-- Teams Selection -->
+                    <div class="form-row teams-row">
+                        <div class="form-group">
+                            <label for="batting_team"><i class="fa-solid fa-bat-ball icon-label"></i> Batting Team</label>
+                            <div class="select-wrapper">
+                                <select id="batting_team" required>
+                                    <option value="" disabled selected>Select Batting Team</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="vs-divider">
+                            <span>VS</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bowling_team"><i class="fa-solid fa-shield icon-label"></i> Bowling Team</label>
+                            <div class="select-wrapper">
+                                <select id="bowling_team" required>
+                                    <option value="" disabled selected>Select Bowling Team</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Venue Selection -->
+                    <div class="form-group">
+                        <label for="venue"><i class="fa-solid fa-location-dot icon-label"></i> Venue / Stadium</label>
+                        <div class="select-wrapper">
+                            <select id="venue" required>
+                                <option value="" disabled selected>Select Match Venue</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Match Metrics Grid -->
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="current_score">Current Score (Runs)</label>
+                            <input type="number" id="current_score" min="0" max="400" placeholder="e.g. 120" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="wickets">Wickets Fallen</label>
+                            <div class="select-wrapper">
+                                <select id="wickets" required>
+                                    <option value="0">0 Wickets</option>
+                                    <option value="1">1 Wicket</option>
+                                    <option value="2">2 Wickets</option>
+                                    <option value="3">3 Wickets</option>
+                                    <option value="4">4 Wickets</option>
+                                    <option value="5">5 Wickets</option>
+                                    <option value="6">6 Wickets</option>
+                                    <option value="7">7 Wickets</option>
+                                    <option value="8">8 Wickets</option>
+                                    <option value="9">9 Wickets</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="overs">Overs Completed</label>
+                            <input type="number" id="overs" min="5.0" max="19.5" step="0.1" placeholder="e.g. 10.4" required>
+                            <small class="helper-text">Enter between 5.0 and 19.5</small>
+                        </div>
+                    </div>
+
+                    <!-- Last 5 Overs Momentum Section -->
+                    <div class="momentum-section">
+                        <div class="section-title">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <h3>Last 5 Overs Momentum</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="runs_in_last_5">Runs Scored</label>
+                                <input type="number" id="runs_in_last_5" min="0" max="150" placeholder="e.g. 45" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="wickets_in_last_5">Wickets Lost</label>
+                                <div class="select-wrapper">
+                                    <select id="wickets_in_last_5" required>
+                                        <option value="0">0 Wickets</option>
+                                        <option value="1">1 Wicket</option>
+                                        <option value="2">2 Wickets</option>
+                                        <option value="3">3 Wickets</option>
+                                        <option value="4">4 Wickets</option>
+                                        <option value="5">5 Wickets</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-predict" id="btn-predict">
+                        <span>Predict Innings Score</span>
+                        <i class="fa-solid fa-bolt ripple-icon"></i>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Right Side: Results & Analytics Panel -->
+            <section class="glass-card output-panel">
+                <div class="card-header">
+                    <i class="fa-solid fa-chart-pie header-icon"></i>
+                    <h2>AI Insights & Predictions</h2>
+                </div>
+
+                <!-- Empty State -->
+                <div id="results-placeholder" class="results-placeholder">
+                    <div class="placeholder-content">
+                        <div class="pulse-icon">
+                            <i class="fa-solid fa-chart-simple"></i>
+                        </div>
+                        <h3>Awaiting Match Situation</h3>
+                        <p>Fill in the live innings data and click predict to run the AI model projections.</p>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="results-loading" class="results-loading hidden">
+                    <div class="loader">
+                        <div class="spinner"></div>
+                        <p>Analyzing team strengths...</p>
+                        <p class="loader-sub">Running Random Forest Regression Pipeline</p>
+                    </div>
+                </div>
+
+                <!-- Prediction Results -->
+                <div id="results-container" class="results-container hidden">
+                    <!-- Main Score Box -->
+                    <div class="prediction-hero">
+                        <span class="prediction-label">PROJECTED FIRST INNINGS SCORE</span>
+                        <div class="prediction-val" id="predicted-score-range">185 - 195</div>
+                        <p class="prediction-sub">Most probable score: <strong id="most-probable-score">190</strong> runs</p>
+                    </div>
+
+                    <!-- Progress Meter -->
+                    <div class="score-meter-container">
+                        <div class="meter-labels">
+                            <span>Low (120)</span>
+                            <span>Average (165)</span>
+                            <span>High (210)</span>
+                        </div>
+                        <div class="meter-track">
+                            <div class="meter-fill" id="meter-fill-bar"></div>
+                            <div class="meter-marker" id="meter-marker-pin">
+                                <span class="marker-tooltip" id="marker-tooltip-val">190</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat Cards Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-title">Current Run Rate</span>
+                            <span class="stat-value" id="current-rr">8.50</span>
+                            <span class="stat-desc">runs per over</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-title">Projected RPO Required</span>
+                            <span class="stat-value" id="predicted-rpo">9.80</span>
+                            <span class="stat-desc">for target score</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-title">Linear Projection</span>
+                            <span class="stat-value" id="linear-proj">170</span>
+                            <span class="stat-desc">based on current RPO</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>&copy; 2026 IPL Score Predictor AI Ganapathi V</p>
+        </footer>
+    </div>
+</body>
+</html>
